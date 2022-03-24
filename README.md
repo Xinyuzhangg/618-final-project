@@ -28,6 +28,9 @@ GOALS AND DELIVERABLES: Describe the deliverables or goals of your project. This
   6. Implement an algorithm in parallel using our K-V storage system (we plan to implement Shank’s BSGS algorithm, which is used to find discrete logarithm in cryptography. It has the potential to threaten the secret key of Bitcoin) (125%)
   7. Measure the parallel speedup compared to sequential implementation. (125%)
   8. Provide estimations of real-world applications and illustrate the potential of parallel computing in several fields. (125%)
+  9. We will provide specific graphs comparing the speed, through and efficiency before and after parallelization. We will compare different effects of speeding up strategy and attempt to visualize the speeding up by using a web server to make real time test.
+  10. We want to extend our work on the basis of a series of papers which would provide us with the insight. We could build upon existent models and see how far we could reach to improve the performance.
+  11. We will compare our result and speed up achieved against the SOTA models.
 
 ## Platform Choice
 
