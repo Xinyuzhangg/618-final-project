@@ -2,21 +2,49 @@
 
 Team members: Xinyu Zhang(xinyuzh3), Zhi Lin(zlin2)
 
-- TITLE: Please provide the title of your project, followed by the names of all team members. Teams must be two students, with extremely rare exceptions.
-- SUMMARY: Summarize your project in no more than 2-3 sentences. Describe what you plan to do and what parallel systems you will be working with. Example one-liners include (you should add a bit more detail):
-  - We are going to implement an optimized Smoothed Particle Hydrodynamics fluid solver on the NVIDIA GPUs in the lab.
-  - We are going port the Go runtime to Blacklight.
-  - We are going to create optimized implementations of sparse-matrix multiplication on both GPU and multi-core CPU platforms, and perform a detailed analysis of both systemsâ€™ performance characteristics.
-  - We are going to back-engineer the unpublished machine specifications of the GPU in the tablet my partner just purchased. 2 â€¢ We are going to implement two possible algorithms for a real-time computer vision application on a mobile device and measure their energy consumption in the lab.
-- BACKGROUND: If your project involves accelerating a compute-intensive application, describe the application or piece of the application you are going to implement in more detail. This description need only be a few paragraphs. It might be helpful to include a block diagram or pseudocode of the basic idea. An important detail is what aspects of the problem might benefit from parallelism and why?
-- THE CHALLENGE: Describe why the problem is challenging. What aspects of the problem might make it difficult to parallelize? In other words, what to you hope to learn by doing the project?
-  - Describe the workload: what are the dependencies, what are its memory access characteristics? (is there locality? is there a high communication to computation ratio?), is there divergent execution?
-  - Describe constraints: What are the properties of the system that make mapping the workload to it challenging?
-- RESOURCES: Describe the resources (type of computers, starter code, etc.) you will use. What code base will you start from? Are you starting from scratch or using an existing piece of code? Is there a book or paper that you are using as a reference (if so, provide a citation)? Are there any other resources you need, but havenâ€™t figured out how to obtain yet? Could you benefit from access to any special machines?
-- GOALS AND DELIVERABLES: Describe the deliverables or goals of your project. This is by far the most important section of the proposal!
-  - Separate your goals into what you PLAN TO ACHIEVE ("100%" -- what you believe you must get done to have a successful project and get the grade you expect) and an extra goal or two ("125%") that you HOPE TO ACHIEVE if the project goes really well and you get ahead of schedule, as well as goals in case the work goes more slowly ("75%"). It may not be possible to state precise performance goals at this time, but we encourage you be as precise as possible. If you do state a goal, give some justification of why you think you can achieve it. (e.g., I hope to speed up my starter code 10x, because if I did it would run in real-time.)
-  - If applicable, describe the demo you plan to show at the poster session (Will it be an interactive demo? Will you show an output of the program that is really neat? Will you show speedup graphs?). Specifically, what will you show us that will demonstrate you did a good job?
-  - If your project is an analysis project, what are you hoping to learn about the workload or system being studied? What question(s) do you plan to answer in your analysis?
-  - Systems project proposals should describe what the system will be capable of and what performance is hoped to be achieved.
-- PLATFORM CHOICE: Describe why the platform (computer and/or language) you have chosen is a good one for your needs. Why does it make sense to use this parallel system for the workload you have chosen?
-- SCHEDULE: Produce a schedule for your project. Your schedule should have at least one item to do per week. List what you plan to get done each week from now until the parallelism competition in order to meet your project goals. Keep in mind that due to other classes, youâ€™ll have more time to work some weeks than others (work that into the schedule). You will need to re-evaluate your progress at the end of each week and update this schedule accordingly. Note the intermediate checkpoint deadline is April 11th. In your schedule we encourage you to be precise as precise as possible. Itâ€™s often helpful to work backward in time from your deliverables and goals, writing down all the little things youâ€™ll need to do (establish the dependencies).
+## Summary
+
+We are going to implement a K-V storage for parallel computing and do correctness check and performance benchmark for further optimizations.
+
+## Background
+
+In our plan, we may use the K-V storage we design to implement the Shank’s Baby-Step-Giant-Step (BSGS) algorithm to solve the discrete logarithm problems: $a^x \equiv b$ in cryptography. This algorithm will modify the equation to $a^{im} \equiv b a^j \mod p$ and traverse i to find if there’s a j in the hash table. Storing and Finding items in the hash table could be run in parallel because they are independent to each other.
+
+## The Challenge: 
+
+Describe the workload: K-V storage usually map data to different spaces according to the key hash. Describe constraints:  Since the hash is totally different even if the key has only slight difference, it’s very challenging to think of improving locality. Also when huge numbers of threads are doing updates, there are a lot of communication to maintain the coherence.
+
+## Resources:
+
+We are still comparing different platforms to use (Cuda, threads, OMP, MPI). Some K-V storage supports concurrency operations like ConcurrentHashmap in Java, but it is unclear about the performance on very high-level parallelism. However, we will investigate some existed solutions and propose our solutions.
+
+GOALS AND DELIVERABLES: Describe the deliverables or goals of your project. This is by far the most important section of the proposal!
+
+1. Implement a k-v storage system in Cuda / MPI, supporting insert, update, search, delete, etc. (75%)
+  2. Test the correctness of items and operations, no race conditions. (75%)
+  3. Benchmark the performance of different operations. (75%)
+  4. Compare with bandwidth and find potential bottlenecks. (100%)
+  5. Measure the cache misses and take steps to reduce cache misses. (100%)
+  6. Implement an algorithm in parallel using our K-V storage system (we plan to implement Shank’s BSGS algorithm, which is used to find discrete logarithm in cryptography. It has the potential to threaten the secret key of Bitcoin) (125%)
+  7. Measure the parallel speedup compared to sequential implementation. (125%)
+  8. Provide estimations of real-world applications and illustrate the potential of parallel computing in several fields. (125%)
+
+## Platform Choice
+
+We are still comparing platforms like Cuda, OMP, and MPI.
+
+## Schedule
+
+3.27 - 3.31: Investigate existed K-V solutions for concurrent / parallel programs
+
+4.1 - 4.2: Establish the data dependencies and set up models for the project
+
+4.3 - 4.8: Implement the storage
+
+4.9 - 4.10: Correctness test & debug
+
+4.12 - 4.16: Benchmark & performance analysis
+
+4.17 - 4.20: Optimization
+
+4.21 - 4.26: Applications
