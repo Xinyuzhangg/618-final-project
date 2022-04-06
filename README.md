@@ -14,6 +14,12 @@ In our plan, we may use the K-V storage we design to implement the Shank’s Bab
 
 Describe the workload: K-V storage usually map data to different spaces according to the key hash. Describe constraints:  Since the hash is totally different even if the key has only slight difference, it’s very challenging to think of improving locality. Also when huge numbers of threads are doing updates, there are a lot of communication to maintain the coherence.
 
+* high update rates
+* low cost by limiting the memory footprint
+* support for larger-than memory data
+* performance that exceeds pure in-memory data
+* structures when the working-set fits in memory
+
 ## Resources:
 
 We are still comparing different platforms to use (Cuda, threads, OMP, MPI). Some K-V storage supports concurrency operations like ConcurrentHashmap in Java, but it is unclear about the performance on very high-level parallelism. However, we will investigate some existed solutions and propose our solutions.
@@ -31,6 +37,7 @@ GOALS AND DELIVERABLES: Describe the deliverables or goals of your project. This
   9. We will provide specific graphs comparing the speed, through and efficiency before and after parallelization. We will compare different effects of speeding up strategy and attempt to visualize the speeding up by using a web server to make real time test.
   10. We want to extend our work on the basis of a series of papers which would provide us with the insight. We could build upon existent models and see how far we could reach to improve the performance.
   11. We will compare our result and speed up achieved against the SOTA models.
+
 
 ## Platform Choice
 
