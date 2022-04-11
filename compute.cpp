@@ -111,9 +111,30 @@ void LinearHashMaster(int procID, int nproc,int nMaster){
         RequestEncoder(buf,r.source,r.comm,r.key,r.value);
         int workerID = r.key%(nproc-nMaster)+nMaster;
         MPI_Request request;
-        MPI_Send(&workerID,1,MPI_INT,callSource,tag,MPI_COMM_WORLD); // return
+        // MPI_Send(&workerID,1,MPI_INT,callSource,tag,MPI_COMM_WORLD); // return
         MPI_Send(buf,20,MPI_BYTE,workerID,tag,MPI_COMM_WORLD);
         free(buf);
     }
 }
 
+void BenchmarkTraceCaller(char* traceFilePath, int procID,int nproc, int nMaster){
+    FILE *input = fopen(traceFilePath, "r");
+    if (!input) {
+        printf("Unable to open file: %s.\n", inputFilename);
+    }
+    int n;
+    int tag = 0;
+    fscanf(input,"%d\n",&traceFilePath);
+    char *comm = malloc(4);
+    ll key;
+    int value;
+    char *req = malloc(20);
+    for(int i=0;i<n;i++){
+        fscanf(input,"%s %lld %d\n",comm,&key,&value);
+        RequestEncoder(req,procID,comm,key,value);
+        int masterID = rand()%nMaster+1;
+        MPI_Send(req,20,MPI_BYTE,masterID,tag,MPI_COMM_WORLD);
+        int res = 0;
+        MPI_Recv(&res,1,MPI_INT,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD, &status);
+    }
+}
