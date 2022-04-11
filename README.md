@@ -58,3 +58,16 @@ We are still comparing platforms like Cuda, OMP, and MPI.
 4.17 - 4.20: Optimization
 
 4.21 - 4.26: Applications
+
+### Milestone
+
+Finished work:
+
+3.27 - 4.6 Technical path discussion and decision
+
+4.8- 4.10 Implementation the storage
+
+Based on the discussion with mentor, we decided to implement the K-V storage based on MPI, and benchmark on PSC. We divided the work into two parts: one implementing linear hashing and one implementing flatten map. We have spent a lot of time tracing recent research and open source projects.
+
+Till now, we have finished the sync MPI version of linear hashing and benchmark framework, including different Get/Put patterns and BSGS algorithm.
+
