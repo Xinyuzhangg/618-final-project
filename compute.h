@@ -27,3 +27,11 @@ void compute_hashWorker(int procID, int nproc);
 
 // hashtable master node
 void compute_hashMaster(int procID, int nproc,int nMaster, bool isBenchmark, std::vector<Request> traceList);
+
+void LinearHashWorker(int procID, int nproc);
+
+void LinearHashMaster(int procID, int nproc,int nMaster,bool isBenchmark, std::vector<Request> traceList);
+
+Request RequestDecoder(void *req);
+
+void RequestEncoder(void *buf, int source, char* comm, long long key, int value);

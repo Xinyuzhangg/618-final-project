@@ -1,5 +1,5 @@
 APP_NAME=hashmap
-# OBJS += hashmap.o
+OBJS += compute.o
 OBJS += main.o
 
 CXX = mpic++ -std=c++11
