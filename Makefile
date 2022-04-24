@@ -1,6 +1,7 @@
 APP_NAME=hashmap
 OBJS += compute.o
 OBJS += main.o
+OBJS += trace_generator.o
 
 CXX = mpic++ -std=c++11
 CXXFLAGS = -I. -O3 #-Wall -Wextra

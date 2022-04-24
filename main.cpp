@@ -1,7 +1,7 @@
 #include "mpi.h"
 #include <algorithm>
 #include "unistd.h"
-#include "trace/trace_generator.hpp"
+#include "trace_generator.hpp"
 #include "string.h"
 #include "compute.h"
 #define ll long long

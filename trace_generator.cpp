@@ -1,6 +1,7 @@
 #include<iostream>
 #include<time.h>
 #include"trace_generator.hpp"
+#include<fstream>
 /*
  * trace format:<PUT key value>
  * */
@@ -10,11 +11,14 @@
 // putget
 #define ModePutGet "PUTGET"
 #define ll long long
+#define mod 1000003
+using namespace std;
+
 
 ll GenerateRandomLL(){
     ll numLeft = rand();
     ll numRight = rand();
-    ll num = ((numLeft<<32)+numRight)%p;
+    ll num = ((numLeft<<32)+numRight);
     return num;
 }
 
@@ -23,6 +27,7 @@ ll GenerateRandomLL(){
  * */
 void GenerateTrace(char *filename, int n, ll p, char* mode){
     std::ofstream output;
+    cout<<"ofstream"<<endl;
     output.open(filename, ios::out);
     output<<n<<endl;
     time_t t;
@@ -44,8 +49,8 @@ void GenerateTrace(char *filename, int n, ll p, char* mode){
             }else {
                 // put
                 ll key = GenerateRandomLL();
-                ll value = GenerateRandomLL();
-                printf(traceItem,"PUT %lld %d",key,value);
+                int value = rand();
+                sprintf(traceItem,"PUT %lld %d",key,value);
             }
         }
         output<<traceItem<<endl;
