@@ -29,8 +29,8 @@ void compute_hashWorker(int procID, int nproc){
 }
 
 // hashtable master node
-void compute_hashMaster(int procID, int nproc,int nMaster, bool isBenchmark, char *traceList[]){
-    LinearHashMaster(procID,int nproc,int nMaster,bool isBenchmark, char* traceList[]);
+void compute_hashMaster(int procID, int nproc,int nMaster, bool isBenchmark, std::vector<Request> traceList){
+    LinearHashMaster(procID,int nproc,int nMaster,bool isBenchmark, traceList);
 }
 
 // parallel algorithm caller
