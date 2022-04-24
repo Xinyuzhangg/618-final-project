@@ -74,7 +74,7 @@ int main() {
     }
 
     // test
-    if(strcmp(callingType,"test")==0){
+    if(strcmp(callingType,"test")==0) {
         /* Initailize additional data structures needed in the algorithm */
         time_t t;
         srand((unsigned) time(&t));
@@ -85,9 +85,10 @@ int main() {
         // Get total number of processes specificed at start of run
         MPI_Comm_size(MPI_COMM_WORLD, &nproc);
 
-        if(procID<masterNum) {
-            char *filename = (char *)malloc(30);
-            sprintf(filename,"%d.txt",procID);
+        vector <Request> requestList;
+        if (procID <= masterNum) {
+            char *filename = (char *) malloc(30);
+            sprintf(filename, "%d.txt", procID);
 
             FILE *input = fopen(traceFilePath, "r");
             if (!input) {
@@ -96,28 +97,27 @@ int main() {
 
             int n;
             int tag = 0;
-            fscanf(input,"%d\n",&n);
-            vector<Request> requestList;
+            fscanf(input, "%d\n", &n);
             ll key;
             int value;
-            for(int i=0;i<n;i++){
-                fscanf(input,"%s %lld %d\n",comm,&key,&value);
+            for (int i = 0; i < n; i++) {
+                fscanf(input, "%s %lld %d\n", comm, &key, &value);
                 Request r;
-                strcpy(r.comm,comm,4);
+                strcpy(r.comm, comm, 4);
                 r.key = key;
                 r.value = value;
                 requestList.push_back(r);
             }
-
-            // Run computation
-            startTime = MPI_Wtime();
-            if(procID<=masterNum){
-                compute_hashMaster(procID, nproc, masterNum, true, char *traceList[])
-            }else{
-                compute_hashWorker(procID, nproc);
-            }
-            endTime = MPI_Wtime();
         }
+
+        // Run computation
+        startTime = MPI_Wtime();
+        if (procID <= masterNum) {
+            compute_hashMaster(procID, nproc, masterNum, true, requestList);
+        } else {
+            compute_hashWorker(procID, nproc);
+        }
+        endTime = MPI_Wtime();
 
         // Cleanup
         MPI_Finalize();

@@ -126,7 +126,7 @@ void LinearHashMaster(int procID, int nproc,int nMaster,bool isBenchmark, std::v
             r = RequestDecoder(comm);
         }
         int callSource = r.source;
-        // don't change the source;
+        // don't change the source, worker send back directly
         void *buf = malloc(20);
         RequestEncoder(buf,r.source,r.comm,r.key,r.value);
         int workerID = r.key%(nproc-nMaster)+nMaster;
