@@ -2,6 +2,7 @@
 #include "include/rigtorp/HashMap.h"
 #include "mpi.h"
 #include "compute.h"
+#include <cstring>
 #include <vector>
 using namespace rigtorp;
 #define ll long long
@@ -12,7 +13,7 @@ using namespace rigtorp;
 struct Hash {
     ll Mod;
     Hash(){
-        
+
     }
     Hash(ll mod){
         Mod = mod;
