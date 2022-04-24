@@ -3,7 +3,7 @@
 #include "unistd.h"
 #include "trace/trace_generator.hpp"
 #include "string.h"
-#include "request.h"
+#include "compute.h"
 #define ll long long
 #include<vector>
 
@@ -99,7 +99,7 @@ int main(int argc, char *argv[]) {
             char *filename = (char *) malloc(30);
             sprintf(filename, "%d.txt", procID);
 
-            FILE *input = fopen(traceFilePath, "r");
+            FILE *input = fopen(filename, "r");
             if (!input) {
                 printf("Unable to open file: %s.\n", filename);
             }
@@ -107,6 +107,7 @@ int main(int argc, char *argv[]) {
             int n;
             int tag = 0;
             fscanf(input, "%d\n", &n);
+            char *comm = (char *)malloc(4);
             ll key;
             int value;
             for (int i = 0; i < n; i++) {

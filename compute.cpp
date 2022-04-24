@@ -1,7 +1,7 @@
 // linear hash
 #include "include/rigtorp/HashMap.h"
 #include "mpi.h"
-#include "request.h"
+#include "compute.h"
 #inclue<vector>
 #define ll long long
 #define OPGet = "GET"

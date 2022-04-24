@@ -10,7 +10,7 @@
 struct Request{
     char *comm;
     int source;
-    ll key;
+    long long key;
     int value;
     Request(){
         comm = (char *)malloc(4);
@@ -19,3 +19,7 @@ struct Request{
         free(comm);
     }
 };
+
+void LinearHashWorker(int procID, int nproc);
+
+void LinearHashMaster(int procID, int nproc,int nMaster,bool isBenchmark, std::vector<Request> traceList);
