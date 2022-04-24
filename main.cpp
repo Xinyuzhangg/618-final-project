@@ -2,6 +2,11 @@
 #include <algorithm>
 #include "unistd.h"
 #include "trace/trace_generator.hpp"
+#include "string.h"
+#include "request.h"
+#define ll long long
+#include<vector>
+
 using namespace std;
 
 int main(int argc, char *argv[]) {
@@ -17,6 +22,9 @@ int main(int argc, char *argv[]) {
     int n = 0;
     char* traceMode = NULL;
     int masterNum = 1;
+
+    double startTime;
+    double endTime;
 
     // Read command line arguments
     do {

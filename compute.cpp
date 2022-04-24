@@ -1,6 +1,7 @@
 // linear hash
 #include "include/rigtorp/HashMap.h"
 #include "mpi.h"
+#include "request.h"
 #inclue<vector>
 #define ll long long
 #define OPGet = "GET"
@@ -19,19 +20,6 @@ struct Hash {
 
 struct Equal {
     bool operator()(ll l, ll r) { return l == r; }
-};
-
-struct Request{
-    char *comm;
-    int source;
-    ll key;
-    int value;
-    Request(){
-        comm = (char *)malloc(4);
-    }
-    ~Request(){
-        free(comm);
-    }
 };
 
 // hashtable worker node
