@@ -15,7 +15,7 @@ int main() {
     char* callingType = NULL;
     int n = 0;
     char* traceMode = NULL;
-    int masterNum = 0;
+    int masterNum = 1;
 
     // Read command line arguments
     do {
@@ -55,6 +55,7 @@ int main() {
         return -1;
     }
 
+    // generate trace
     if(strcmp(callingType,"trace")==0){
         if(filename==NULL||n==0){
             printf("Should have file name and n");
@@ -65,31 +66,61 @@ int main() {
         if(traceMode==NULL){
             traceMode = "ModePutGet";
         }
-        GenerateTrace(filename,n,p,traceMode);
+        if(procID<masterNum) {
+            GenerateTrace(filename, n, p, traceMode);
+        }
+        MPI_Finalize();
         return 0;
     }
 
+    // test
     if(strcmp(callingType,"test")==0){
+        /* Initailize additional data structures needed in the algorithm */
+        time_t t;
+        srand((unsigned) time(&t));
 
+        // Get process rank
+        MPI_Comm_rank(MPI_COMM_WORLD, &procID);
+
+        // Get total number of processes specificed at start of run
+        MPI_Comm_size(MPI_COMM_WORLD, &nproc);
+
+        if(procID<masterNum) {
+            char *filename = (char *)malloc(30);
+            sprintf(filename,"%d.txt",procID);
+
+            FILE *input = fopen(traceFilePath, "r");
+            if (!input) {
+                printf("Unable to open file: %s.\n", filename);
+            }
+
+            int n;
+            int tag = 0;
+            fscanf(input,"%d\n",&n);
+            vector<Request> requestList;
+            ll key;
+            int value;
+            for(int i=0;i<n;i++){
+                fscanf(input,"%s %lld %d\n",comm,&key,&value);
+                Request r;
+                strcpy(r.comm,comm,4);
+                r.key = key;
+                r.value = value;
+                requestList.push_back(r);
+            }
+
+            // Run computation
+            startTime = MPI_Wtime();
+            if(procID<=masterNum){
+                compute_hashMaster(procID, nproc, masterNum, true, char *traceList[])
+            }else{
+                compute_hashWorker(procID, nproc);
+            }
+            endTime = MPI_Wtime();
+        }
+
+        // Cleanup
+        MPI_Finalize();
+        return 0;
     }
-
-    readInput(inputFilename);
-
-    /* Initailize additional data structures needed in the algorithm */
-    time_t t;
-    srand((unsigned) time(&t));
-
-    // Get process rank
-    MPI_Comm_rank(MPI_COMM_WORLD, &procID);
-
-    // Get total number of processes specificed at start of run
-    MPI_Comm_size(MPI_COMM_WORLD, &nproc);
-
-    // Run computation
-    startTime = MPI_Wtime();
-    compute(procID, nproc, inputFilename);
-    endTime = MPI_Wtime();
-
-    // Cleanup
-    MPI_Finalize();
 }

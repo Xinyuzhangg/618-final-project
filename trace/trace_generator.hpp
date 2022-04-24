@@ -8,3 +8,9 @@
 #endif //INC_618_FINAL_PROJECT_TRACE_GENERATOR_H
 
 void GenerateTrace(char *filename, int n, ll p, char* mode);
+
+struct Trace{
+    char[4] op;
+    long long key;
+    int value;
+};

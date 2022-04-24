@@ -1,6 +1,7 @@
 // linear hash
 #include "include/rigtorp/HashMap.h"
 #include "mpi.h"
+#inclue<vector>
 #define ll long long
 #define OPGet = "GET"
 #define OPPut = "PUT"
@@ -36,12 +37,12 @@ struct Request{
 // hashtable worker node
 // async receive signal from master
 void compute_hashWorker(int procID, int nproc){
-
+    LinearHashWorker(procID,nproc);
 }
 
 // hashtable master node
-void compute_hashMaster(int procID, int nproc){
-
+void compute_hashMaster(int procID, int nproc,int nMaster, bool isBenchmark, char *traceList[]){
+    LinearHashMaster(procID,int nproc,int nMaster,bool isBenchmark, char* traceList[]);
 }
 
 // parallel algorithm caller
@@ -86,25 +87,44 @@ void LinearHashWorker(int procID, int nproc){
     while(1){
         MPI_Recv(r,20,MPI_BYTE,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
         Request r = RequestDecoder(r);
+        void *resp = malloc(4);
         if(strcmp(r.comm,OPPut)==0){
             std::pair<rigtorp::iterator,bool> res = hm.emplace(r.key, r.value);
+            int resInt = res.second?1:0;
+            memcpy(resp,&resInt,4);
         }else if(strcmp(r.comm,OPGet)==0){
-            long long res = hm.at(r.key);
+            int res = hm.at(r.key);
+            memcpy(resp,&res,4);
         }else if(strcmp(r.comm,OPRmv)==0){
             hm.erase(r.key);
+            int resInt = 1;
+            memcpy(resp,&resInt,4);
         }
+        // send back to source;
+        MPI_Send(resp,4,MPI_INT,r.source,tag,MPI_COMM_WORLD);
     }
 }
 
-void LinearHashMaster(int procID, int nproc,int nMaster){
+void LinearHashMaster(int procID, int nproc,int nMaster,bool isBenchmark, std::vector<Request> traceList){
     Hash modHash(1000003);
     Equal LLEqual;
     int tag = 0;
     int sourceID = 0;
     char *comm = malloc(20);
+    int traceId = 0;
+    int maxTraceId = traceList.size();
     while(1){
-        MPI_Recv(comm,20,MPI_BYTE,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
-        Request r = RequestDecoder(comm);
+        Request r;
+        if(isBenchmark){
+            if(traceId == maxTraceId){
+                break;
+            }
+            r = traceList[traceId];
+            traceId++;
+        }else{
+            MPI_Recv(comm, 20, MPI_BYTE, MPI_ANY_SOURCE, tag, MPI_COMM_WORLD, &status);
+            r = RequestDecoder(comm);
+        }
         int callSource = r.source;
         // don't change the source;
         void *buf = malloc(20);
