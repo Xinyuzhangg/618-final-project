@@ -113,7 +113,7 @@ int main(int argc, char *argv[]) {
             for (int i = 0; i < n; i++) {
                 fscanf(input, "%s %lld %d\n", comm, &key, &value);
                 Request r;
-                strcpy(r.comm, comm, 4);
+                memcpy(r.comm, comm,4);
                 r.key = key;
                 r.value = value;
                 requestList.push_back(r);

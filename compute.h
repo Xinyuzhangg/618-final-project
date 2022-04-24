@@ -20,6 +20,7 @@ struct Request{
     }
 };
 
-void LinearHashWorker(int procID, int nproc);
+void compute_hashWorker(int procID, int nproc);
 
-void LinearHashMaster(int procID, int nproc,int nMaster,bool isBenchmark, std::vector<Request> traceList);
+// hashtable master node
+void compute_hashMaster(int procID, int nproc,int nMaster, bool isBenchmark, char *traceList[]);
