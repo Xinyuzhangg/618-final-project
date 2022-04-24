@@ -1,9 +1,10 @@
 #include "mpi.h"
 #include <algorithm>
+#include "unistd.h"
 #include "trace/trace_generator.hpp"
 using namespace std;
 
-int main() {
+int main(int argc, char *argv[]) {
     int procID;
     int nproc;
     char *filename = NULL;
