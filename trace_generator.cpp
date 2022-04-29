@@ -2,6 +2,7 @@
 #include<time.h>
 #include"trace_generator.hpp"
 #include<fstream>
+#include<cstring>
 /*
  * trace format:<PUT key value>
  * */
