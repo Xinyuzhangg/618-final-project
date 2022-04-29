@@ -72,10 +72,12 @@ int main(int argc, char *argv[]) {
             return -1;
         }
         ll p = 1000003;
+        printf("generate trace\n");
         if(traceMode==NULL){
             traceMode = "ModePutGet";
         }
         if(procID<masterNum) {
+            printf("valid\n");
             GenerateTrace(filename, n, p, traceMode);
         }
         MPI_Finalize();
@@ -94,8 +96,9 @@ int main(int argc, char *argv[]) {
         // Get total number of processes specificed at start of run
         MPI_Comm_size(MPI_COMM_WORLD, &nproc);
 
-        vector <Request> requestList;
-        if (procID <= masterNum) {
+        vector <Request> requestList(50000);
+        if (procID < masterNum) {
+            printf("call %d\n",procID);
             char *filename = (char *) malloc(30);
             sprintf(filename, "%d.txt", procID);
 
@@ -107,27 +110,39 @@ int main(int argc, char *argv[]) {
             int n;
             int tag = 0;
             fscanf(input, "%d\n", &n);
-            char *comm = (char *)malloc(4);
+            char comm[5];
             ll key;
             int value;
             for (int i = 0; i < n; i++) {
-                fscanf(input, "%s %lld %d\n", comm, &key, &value);
-                Request r;
-                memcpy(r.comm, comm,4);
-                r.key = key;
-                r.value = value;
-                requestList.push_back(r);
+                fscanf(input, "%s %lld %d", comm, &key, &value);
+                Request *r = new Request;
+                //printf("tag1\n");
+                if(strcmp(comm,"PUT")==0){
+                    r->comm = 0;
+                }else if (strcmp(comm,"GET")==0){
+                    r->comm = 1;
+                }else{
+                    r->comm = 2;
+                }
+                r->key = key;
+                //printf("tag3\n");
+                r->value = value;
+                //printf("%lld %d %s\n",r->key,r->value,r->comm);
+                requestList[i] = *r;
+                //printf("pushed\n");
             }
         }
 
+        printf("this is %d\n",procID);
         // Run computation
         startTime = MPI_Wtime();
-        if (procID <= masterNum) {
+        if (procID < masterNum) {
             compute_hashMaster(procID, nproc, masterNum, true, requestList);
         } else {
             compute_hashWorker(procID, nproc);
         }
         endTime = MPI_Wtime();
+        printf("running time: %lf\n",endTime-startTime);
 
         // Cleanup
         MPI_Finalize();

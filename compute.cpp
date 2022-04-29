@@ -4,6 +4,7 @@
 #include "compute.h"
 #include <cstring>
 #include <vector>
+#include<iostream>
 using namespace rigtorp;
 #define ll long long
 #define OPGet "GET"
@@ -35,7 +36,7 @@ void compute_hashWorker(int procID, int nproc){
 }
 
 // hashtable master node
-void compute_hashMaster(int procID, int nproc,int nMaster, bool isBenchmark, std::vector<Request> traceList){
+void compute_hashMaster(int procID, int nproc,int nMaster, bool isBenchmark, std::vector<Request> &traceList){
     LinearHashMaster(procID,nproc,nMaster,isBenchmark,traceList);
 }
 
@@ -44,28 +45,32 @@ void compute_caller(int procID, int nproc){
 
 }
 
-Request RequestDecoder(void *req){
+Request RequestDecoder(char *req){
     Request r;
     int cursor = 0;
-    memcpy(&r.source,(char*)req+cursor,sizeof(int));
+    memcpy(&r.source,req+cursor,sizeof(int));
+    //cout<<"decode source "<<r.source<<*(int*)req<<endl;
     cursor+=sizeof(int);
-    memcpy(r.comm,(char*)req+cursor,4);
+    memcpy(&r.comm,req+cursor,4);
+    //cout<<"decode comm "<<r.comm<<endl;
     cursor+=4;
-    memcpy(&r.key,(char*)req+cursor,sizeof(ll));
+    memcpy(&r.key,req+cursor,sizeof(ll));
+    //cout<<"decode key "<<r.key<<endl;
     cursor+=sizeof(ll);
-    memcpy(&r.value,(char*)req+cursor,sizeof(int));
+    memcpy(&r.value,req+cursor,sizeof(int));
+    //cout<<"decode value"<<r.source<<endl;
     return r;
 }
 
-void RequestEncoder(void *buf, int source, char* comm, ll key, int value){
+void RequestEncoder(char *buf, int source, int comm, ll key, int value){
     int cursor = 0;
-    memcpy((char*)buf+cursor,&source,sizeof(int));
+    memcpy(buf+cursor,&source,sizeof(int));
     cursor+=sizeof(int);
-    memcpy((char*)buf+cursor,comm,4);
+    memcpy(buf+cursor,&comm,4);
     cursor+=4;
-    memcpy((char*)buf+cursor,&key,sizeof(ll));
+    memcpy(buf+cursor,&key,sizeof(ll));
     cursor+=sizeof(ll);
-    memcpy((char*)buf+cursor, &value, sizeof(int));
+    memcpy(buf+cursor, &value, sizeof(int));
 }
 
 void LinearHashWorker(int procID, int nproc){
@@ -74,40 +79,51 @@ void LinearHashWorker(int procID, int nproc){
     int tag = 0;
     MPI_Status status;
     HashMap<ll, int, decltype(modHash), decltype(LLEqual)> hm(16,0);
-    void *r = malloc(20);
+    // void *r = malloc(20);
+    char r[21];
     ll key;
     int value;
     while(1){
-        MPI_Recv(r,20,MPI_BYTE,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
-        Request req = RequestDecoder(r);
+        //printf("hash worker loop\n");
+        //MPI_Recv(r,20,MPI_BYTE,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
+        // MPI_Recv(r,20,MPI_BYTE,0,tag,MPI_COMM_WORLD,&status);
+        // Request req = RequestDecoder(r);
+        Request req;
+        MPI_Recv(&req.source,1,MPI_INT,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
+        MPI_Recv(&req.key,1,MPI_LONG_LONG_INT,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
+        MPI_Recv(&req.value,1,MPI_INT,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
+        MPI_Recv(&req.comm,1,MPI_INT,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
+        //printf("received a message %lld %d %d\n",req.key,req.value,req.comm);
         void *resp = malloc(4);
-        if(strcmp(req.comm,OPPut)==0){
+        if(req.comm==0){
             auto res = hm.emplace(req.key, req.value);
             int resInt = res.second?1:0;
             memcpy(resp,&resInt,4);
-        }else if(strcmp(req.comm,OPGet)==0){
+        }else if(req.comm==1){
             int res = hm.at(req.key);
             memcpy(resp,&res,4);
-        }else if(strcmp(req.comm,OPRmv)==0){
+        }else if(req.comm==2){
             hm.erase(req.key);
             int resInt = 1;
             memcpy(resp,&resInt,4);
         }
         // send back to source;
+        // cout<<"send back to "<<req.source<<endl;
         MPI_Send(resp,4,MPI_INT,req.source,tag,MPI_COMM_WORLD);
     }
 }
 
-void LinearHashMaster(int procID, int nproc,int nMaster,bool isBenchmark, std::vector<Request> traceList){
+void LinearHashMaster(int procID, int nproc,int nMaster,bool isBenchmark, std::vector<Request> &traceList){
     Hash modHash(1000003);
     Equal LLEqual;
     int tag = 0;
     int sourceID = 0;
-    char *comm = (char *)malloc(20);
+    char comm[21];
     int traceId = 0;
     MPI_Status status;
     int maxTraceId = traceList.size();
     while(1){
+        printf("hash master loop\n");
         Request r;
         if(isBenchmark){
             if(traceId == maxTraceId){
@@ -121,14 +137,20 @@ void LinearHashMaster(int procID, int nproc,int nMaster,bool isBenchmark, std::v
         }
         int callSource = r.source;
         // don't change the source, worker send back directly
-        void *buf = malloc(20);
+        char buf[20];
         RequestEncoder(buf,r.source,r.comm,r.key,r.value);
         int workerID = r.key%(nproc-nMaster)+nMaster;
         MPI_Request request;
         // MPI_Send(&workerID,1,MPI_INT,callSource,tag,MPI_COMM_WORLD); // return
-        MPI_Send(buf,20,MPI_BYTE,workerID,tag,MPI_COMM_WORLD);
-        free(buf);
+        //MPI_Send(buf,20,MPI_BYTE,workerID,tag,MPI_COMM_WORLD);
+        printf("this is %d %lld %d %d\n",procID,r.key,r.value,r.comm);
+        MPI_Send(&procID,1,MPI_INT,workerID,tag,MPI_COMM_WORLD);
+        MPI_Send(&r.key,1,MPI_LONG_LONG_INT,workerID,tag,MPI_COMM_WORLD);
+        MPI_Send(&r.value,1,MPI_INT,workerID,tag,MPI_COMM_WORLD);
+        MPI_Send(&r.comm,1,MPI_INT,workerID,tag,MPI_COMM_WORLD);
+        //free(buf);
     }
+    printf("end of master\n");
 }
 /*
 void BenchmarkTraceCaller(char* traceFilePath, int procID,int nproc, int nMaster){
