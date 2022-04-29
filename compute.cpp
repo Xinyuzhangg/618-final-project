@@ -73,6 +73,42 @@ void RequestEncoder(char *buf, int source, int comm, ll key, int value){
     memcpy(buf+cursor, &value, sizeof(int));
 }
 
+void LinearHashSerial(std::vector<Request> &traceList){
+    Hash modHash(1000003);
+    Equal LLEqual;
+    int tag = 0;
+    MPI_Status status;
+    HashMap<ll, int, decltype(modHash), decltype(LLEqual)> hm(16,0);
+    // void *r = malloc(20);
+    char r[21];
+    ll key;
+    int value;
+    int traceId = 0;
+    int maxTraceId = traceList.size();
+    while(1) {
+        Request req;
+        if (traceId == maxTraceId) {
+            break;
+        }
+        req = traceList[traceId];
+        traceId++;
+        void *resp = malloc(4);
+        if (req.comm == 0) {
+            auto res = hm.emplace(req.key, req.value);
+            int resInt = res.second ? 1 : 0;
+            memcpy(resp, &resInt, 4);
+        } else if (req.comm == 1) {
+            int res = hm.at(req.key);
+            memcpy(resp, &res, 4);
+        } else if (req.comm == 2) {
+            hm.erase(req.key);
+            int resInt = 1;
+            memcpy(resp, &resInt, 4);
+        }
+        free(resp);
+    }
+}
+
 void LinearHashWorker(int procID, int nproc){
     Hash modHash(1000003);
     Equal LLEqual;
@@ -84,15 +120,16 @@ void LinearHashWorker(int procID, int nproc){
     ll key;
     int value;
     while(1){
-        //printf("hash worker loop\n");
-        //MPI_Recv(r,20,MPI_BYTE,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
+        // MPI_Recv(r,20,MPI_BYTE,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
         // MPI_Recv(r,20,MPI_BYTE,0,tag,MPI_COMM_WORLD,&status);
         // Request req = RequestDecoder(r);
         Request req;
-        MPI_Recv(&req.source,1,MPI_INT,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
-        MPI_Recv(&req.key,1,MPI_LONG_LONG_INT,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
-        MPI_Recv(&req.value,1,MPI_INT,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
-        MPI_Recv(&req.comm,1,MPI_INT,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
+        int recvBuf[5];
+        MPI_Recv(recvBuf,5,MPI_INT,0,tag,MPI_COMM_WORLD,&status);
+        req.source = recvBuf[0];
+        req.key = ((ll)(recvBuf[1])<<32) + (ll)recvBuf[2];
+        req.value = recvBuf[3];
+        req.comm = recvBuf[4];
         //printf("received a message %lld %d %d\n",req.key,req.value,req.comm);
         void *resp = malloc(4);
         if(req.comm==0){
@@ -123,7 +160,6 @@ void LinearHashMaster(int procID, int nproc,int nMaster,bool isBenchmark, std::v
     MPI_Status status;
     int maxTraceId = traceList.size();
     while(1){
-        printf("hash master loop\n");
         Request r;
         if(isBenchmark){
             if(traceId == maxTraceId){
@@ -143,11 +179,14 @@ void LinearHashMaster(int procID, int nproc,int nMaster,bool isBenchmark, std::v
         MPI_Request request;
         // MPI_Send(&workerID,1,MPI_INT,callSource,tag,MPI_COMM_WORLD); // return
         //MPI_Send(buf,20,MPI_BYTE,workerID,tag,MPI_COMM_WORLD);
-        printf("this is %d %lld %d %d\n",procID,r.key,r.value,r.comm);
-        MPI_Send(&procID,1,MPI_INT,workerID,tag,MPI_COMM_WORLD);
-        MPI_Send(&r.key,1,MPI_LONG_LONG_INT,workerID,tag,MPI_COMM_WORLD);
-        MPI_Send(&r.value,1,MPI_INT,workerID,tag,MPI_COMM_WORLD);
-        MPI_Send(&r.comm,1,MPI_INT,workerID,tag,MPI_COMM_WORLD);
+        // printf("this is %d %lld %d %d\n",procID,r.key,r.value,r.comm);
+        int send[5];
+        send[0] = procID;
+        send[1] = int(r.key>>32);
+        send[2] = int(r.key&0xffffffff);
+        send[3] = r.value;
+        send[4] = r.comm;
+        MPI_Send(send,5,MPI_INT,workerID,tag,MPI_COMM_WORLD);
         //free(buf);
     }
     printf("end of master\n");
