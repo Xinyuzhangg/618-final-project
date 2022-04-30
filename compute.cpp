@@ -32,8 +32,14 @@ struct Equal {
 
 // hashtable worker node
 // async receive signal from master
-void compute_hashWorker(int procID, int nproc){
-    LinearHashWorker(procID,nproc);
+void compute_hashWorker(int procID, int nproc,char* hashType){
+    if(strcmp(hashType,"linear")==0) {
+        cout<<"call linear"<<endl;
+        LinearHashWorker(procID, nproc);
+    }else{
+        cout<<"call flat"<<endl;
+        FlatHashWorker(procID,nproc);
+    }
 }
 
 // hashtable master node
@@ -119,17 +125,19 @@ void FlatHashWorker(int procID, int nproc) {
     ll key;
     int value;
     while (1) {
-        //printf("hash worker loop\n");
-        // MPI_Recv(r,20,MPI_BYTE,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
-        // MPI_Recv(r,20,MPI_BYTE,0,tag,MPI_COMM_WORLD,&status);
-        // Request req = RequestDecoder(r);
         Request req;
-        MPI_Recv(&req.source, 1, MPI_INT, MPI_ANY_SOURCE, tag, MPI_COMM_WORLD, &status);
-        MPI_Recv(&req.key, 1, MPI_LONG_LONG_INT, MPI_ANY_SOURCE, tag, MPI_COMM_WORLD, &status);
-        MPI_Recv(&req.value, 1, MPI_INT, MPI_ANY_SOURCE, tag, MPI_COMM_WORLD, &status);
-        MPI_Recv(&req.comm, 1, MPI_INT, MPI_ANY_SOURCE, tag, MPI_COMM_WORLD, &status);
-        //printf("received a message %lld %d %d\n",req.key,req.value,req.comm);
+        int recvBuf[5];
+        MPI_Recv(recvBuf,5,MPI_INT,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
+        MPI_Request request;
+        if(recvBuf[0]==0 && recvBuf[1]==0)continue;
+        req.source = recvBuf[0];
+        req.key = ((ll)(recvBuf[1])<<32) + (ll)recvBuf[2];
+        req.value = recvBuf[3];
+        req.comm = recvBuf[4];
         void *resp = malloc(4);
+        if(req.comm !=0){
+            continue;
+        }
         if (req.comm == 0) {
             auto res = fhm->insert_or_assign(req.key, req.value);
             int resInt = res.second ? 1 : 0;
@@ -138,13 +146,9 @@ void FlatHashWorker(int procID, int nproc) {
             int res = fhm->at(req.key);
             memcpy(resp, &res, 4);
         } else if (req.comm == 2) {
-            // fhm->erase(req.key);
-            // int resInt = 1;
-            // memcpy(resp, &resInt, 4);
+
         }
-        // send back to source;
-        // cout<<"send back to "<<req.source<<endl;
-        MPI_Send(resp, 4, MPI_INT, req.source, tag, MPI_COMM_WORLD);
+        // MPI_Send(resp, 4, MPI_INT, req.source, tag, MPI_COMM_WORLD);
     }
 }
 
@@ -178,6 +182,9 @@ void LinearHashWorker(int procID, int nproc){
         req.value = recvBuf[3];
         req.comm = recvBuf[4];
         //printf("received a message %lld %d %d\n",req.key,req.value,req.comm);
+        if(req.comm !=0){
+            continue;
+        }
         void *resp = malloc(4);
         if(req.comm==0){
             auto res = hm.emplace(req.key, req.value);

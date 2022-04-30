@@ -21,7 +21,7 @@ struct Request{
     }
 };
 
-void compute_hashWorker(int procID, int nproc);
+void compute_hashWorker(int procID, int nproc,char* hashType);
 
 // hashtable master node
 void compute_hashMaster(int procID, int nproc,int nMaster, bool isBenchmark, std::vector<Request> &traceList);
@@ -35,3 +35,5 @@ void LinearHashMaster(int procID, int nproc,int nMaster,bool isBenchmark, std::v
 Request RequestDecoder(void *req);
 
 void RequestEncoder(void *buf, int source, char* comm, long long key, int value);
+
+void FlatHashWorker(int procID, int nproc);

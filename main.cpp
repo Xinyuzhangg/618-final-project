@@ -24,13 +24,14 @@ int main(int argc, char *argv[]) {
     int n = 0;
     char* traceMode = NULL;
     int masterNum = 1;
+    char* hashType = NULL;
 
     double startTime;
     double endTime;
 
     // Read command line arguments
     do {
-        opt = getopt(argc, argv, "t:n:f:c:m:");
+        opt = getopt(argc, argv, "t:n:f:c:m:h:");
         switch (opt) {
             case 't':
                 callingType = optarg;
@@ -50,6 +51,10 @@ int main(int argc, char *argv[]) {
 
             case 'm':
                 masterNum = atoi(optarg);
+                break;
+
+            case 'h':
+                hashType = optarg;
                 break;
 
             case -1:
@@ -184,7 +189,7 @@ int main(int argc, char *argv[]) {
         if (procID < masterNum) {
             compute_hashMaster(procID, nproc, masterNum, true, requestList);
         } else {
-            compute_hashWorker(procID, nproc);
+            compute_hashWorker(procID, nproc,hashType);
         }
         endTime = MPI_Wtime();
         printf("running time: %lf\n",endTime-startTime);
