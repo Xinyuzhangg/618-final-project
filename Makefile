@@ -4,7 +4,7 @@ OBJS += main.o
 OBJS += trace_generator.o
 
 CXX = mpic++ -std=c++11
-CXXFLAGS = -I. -O3 #-Wall -Wextra
+CXXFLAGS = -g -I. -O3 #-Wall -Wextra
 
 default: $(APP_NAME)
 
