@@ -146,7 +146,7 @@ void LinearHashWorker(int procID, int nproc){
         }
         // send back to source;
         // cout<<"send back to "<<req.source<<endl;
-        MPI_Send(resp,4,MPI_INT,req.source,tag,MPI_COMM_WORLD);
+        // MPI_Send(resp,4,MPI_INT,req.source,tag,MPI_COMM_WORLD);
     }
 }
 
@@ -178,7 +178,7 @@ void LinearHashMaster(int procID, int nproc,int nMaster,bool isBenchmark, std::v
         int workerID = r.key%(nproc-nMaster)+nMaster;
         MPI_Request request;
         // MPI_Send(&workerID,1,MPI_INT,callSource,tag,MPI_COMM_WORLD); // return
-        //MPI_Send(buf,20,MPI_BYTE,workerID,tag,MPI_COMM_WORLD);
+        // MPI_Send(buf,20,MPI_BYTE,workerID,tag,MPI_COMM_WORLD);
         // printf("this is %d %lld %d %d\n",procID,r.key,r.value,r.comm);
         int send[5];
         send[0] = procID;
@@ -191,6 +191,7 @@ void LinearHashMaster(int procID, int nproc,int nMaster,bool isBenchmark, std::v
     }
     printf("end of master\n");
 }
+
 /*
 void BenchmarkTraceCaller(char* traceFilePath, int procID,int nproc, int nMaster){
     FILE *input = fopen(traceFilePath, "r");

@@ -4,6 +4,8 @@
 #include "trace_generator.hpp"
 #include "string.h"
 #include "compute.h"
+#include<iostream>
+#include<cstdio>
 #define ll long long
 #include<vector>
 
