@@ -144,7 +144,7 @@ int main(int argc, char *argv[]) {
         if (procID < masterNum) {
             printf("call %d\n",procID);
             char *filename = (char *) malloc(30);
-            sprintf(filename, "%d.txt", procID);
+            sprintf(filename, "trace/%d.txt", procID);
 
             FILE *input = fopen(filename, "r");
             if (!input) {

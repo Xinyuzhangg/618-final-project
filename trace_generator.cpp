@@ -43,7 +43,7 @@ void GenerateTrace(char *filename, int n, ll p, char* mode){
             ll key = GenerateRandomLL();
             sprintf(traceItem,"GET %lld %d",key,0);
         }else{
-            if(rand()%p<i){
+            if(rand()%n<i){
                 // get
                 ll key = GenerateRandomLL();
                 sprintf(traceItem,"GET %lld %d",key,0);

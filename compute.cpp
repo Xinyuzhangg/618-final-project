@@ -119,13 +119,20 @@ void LinearHashWorker(int procID, int nproc){
     char r[21];
     ll key;
     int value;
+    int id = 0;
     while(1){
         // MPI_Recv(r,20,MPI_BYTE,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
         // MPI_Recv(r,20,MPI_BYTE,0,tag,MPI_COMM_WORLD,&status);
         // Request req = RequestDecoder(r);
         Request req;
         int recvBuf[5];
-        MPI_Recv(recvBuf,5,MPI_INT,0,tag,MPI_COMM_WORLD,&status);
+        MPI_Recv(recvBuf,5,MPI_INT,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
+        MPI_Request request;
+        //MPI_Irecv(recvBuf,5,MPI_INT,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&request);
+        // if(recvBuf[0]>=0 && recvBuf[0]<=4 && id<50)printf("received 1 %d %d %d %d %d\n",recvBuf[0],recvBuf[1],recvBuf[2],recvBuf[3],recvBuf[4]);
+        id++;
+        if(recvBuf[0]==0 && recvBuf[1]==0)continue;
+        // printf("received 2 %d %d %d %d %d\n",recvBuf[0],recvBuf[1],recvBuf[2],recvBuf[3],recvBuf[4]);
         req.source = recvBuf[0];
         req.key = ((ll)(recvBuf[1])<<32) + (ll)recvBuf[2];
         req.value = recvBuf[3];
@@ -159,6 +166,10 @@ void LinearHashMaster(int procID, int nproc,int nMaster,bool isBenchmark, std::v
     int traceId = 0;
     MPI_Status status;
     int maxTraceId = traceList.size();
+    MPI_Request request[100];
+    int index = 0;
+    int ctn = 0;
+    printf("total master number %d i am %d\n",nMaster,procID);
     while(1){
         Request r;
         if(isBenchmark){
@@ -168,25 +179,34 @@ void LinearHashMaster(int procID, int nproc,int nMaster,bool isBenchmark, std::v
             r = traceList[traceId];
             traceId++;
         }else{
-            MPI_Recv(comm, 20, MPI_BYTE, MPI_ANY_SOURCE, tag, MPI_COMM_WORLD, &status);
-            r = RequestDecoder(comm);
+            // MPI_Irecv(comm, 20, MPI_BYTE, MPI_ANY_SOURCE, tag, MPI_COMM_WORLD, &status);
+            // r = RequestDecoder(comm);
         }
         int callSource = r.source;
         // don't change the source, worker send back directly
         char buf[20];
         RequestEncoder(buf,r.source,r.comm,r.key,r.value);
         int workerID = r.key%(nproc-nMaster)+nMaster;
-        MPI_Request request;
         // MPI_Send(&workerID,1,MPI_INT,callSource,tag,MPI_COMM_WORLD); // return
         // MPI_Send(buf,20,MPI_BYTE,workerID,tag,MPI_COMM_WORLD);
         // printf("this is %d %lld %d %d\n",procID,r.key,r.value,r.comm);
-        int send[5];
-        send[0] = procID;
-        send[1] = int(r.key>>32);
-        send[2] = int(r.key&0xffffffff);
-        send[3] = r.value;
-        send[4] = r.comm;
-        MPI_Send(send,5,MPI_INT,workerID,tag,MPI_COMM_WORLD);
+        int sendBuf[5];
+        sendBuf[0] = procID;
+        sendBuf[1] = int(r.key>>32);
+        sendBuf[2] = int(r.key&0xffffffff);
+        sendBuf[3] = r.value;
+        sendBuf[4] = r.comm;
+        // if(ctn<20) printf("sent %d %d %d %d %d\n",sendBuf[0],sendBuf[1],sendBuf[2],sendBuf[3],sendBuf[4]);
+        ctn++;
+        //MPI_Send(sendBuf,5,MPI_INT,workerID,tag,MPI_COMM_WORLD);
+        MPI_Isend(sendBuf,5,MPI_INT,workerID,tag,MPI_COMM_WORLD,&request[index]);
+        index++;
+        if(index==100){
+            index = 0;
+            for(int i=0;i<100;i++){
+                MPI_Wait(&request[i],&status);
+            }
+        }
         //free(buf);
     }
     printf("end of master\n");
