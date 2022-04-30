@@ -85,7 +85,7 @@ void LinearHashWorker(int procID, int nproc){
     int value;
     while(1){
         //printf("hash worker loop\n");
-        //MPI_Recv(r,20,MPI_BYTE,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
+        // MPI_Recv(r,20,MPI_BYTE,MPI_ANY_SOURCE,tag,MPI_COMM_WORLD,&status);
         // MPI_Recv(r,20,MPI_BYTE,0,tag,MPI_COMM_WORLD,&status);
         // Request req = RequestDecoder(r);
         Request req;
