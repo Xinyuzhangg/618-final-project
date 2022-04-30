@@ -4,13 +4,15 @@
 #include "trace_generator.hpp"
 #include "string.h"
 #include "compute.h"
+#include<iostream>
+#include<cstdio>
 #define ll long long
 #include<vector>
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
-    int procID;
+    int procID = 1;
     int nproc;
     char *filename = NULL;
     int opt = 0;
@@ -76,10 +78,52 @@ int main(int argc, char *argv[]) {
         if(traceMode==NULL){
             traceMode = "ModePutGet";
         }
-        if(procID<masterNum) {
+        if(procID==1 || procID<masterNum) {
             printf("valid\n");
             GenerateTrace(filename, n, p, traceMode);
         }
+        MPI_Finalize();
+        return 0;
+    }
+
+    if(strcmp(callingType,"serial")==0) {
+        time_t t;
+        srand((unsigned) time(&t));
+
+        printf("call %d\n", procID);
+        char *filename = (char *) malloc(30);
+        sprintf(filename, "%d.txt", procID);
+
+        FILE *input = fopen(filename, "r");
+        if (!input) {
+            printf("Unable to open file: %s.\n", filename);
+        }
+
+        int n;
+        int tag = 0;
+        fscanf(input, "%d\n", &n);
+        vector <Request> requestList(n);
+        char comm[5];
+        ll key;
+        int value;
+        for (int i = 0; i < n; i++) {
+            fscanf(input, "%s %lld %d", comm, &key, &value);
+            Request *r = new Request;
+            if (strcmp(comm, "PUT") == 0) {
+                r->comm = 0;
+            } else if (strcmp(comm, "GET") == 0) {
+                r->comm = 1;
+            } else {
+                r->comm = 2;
+            }
+            r->key = key;
+            r->value = value;
+            requestList[i] = *r;
+        }
+        startTime = MPI_Wtime();
+        LinearHashSerial(requestList);
+        endTime = MPI_Wtime();
+        printf("running time: %lf\n",endTime-startTime);
         MPI_Finalize();
         return 0;
     }
@@ -95,12 +139,12 @@ int main(int argc, char *argv[]) {
 
         // Get total number of processes specificed at start of run
         MPI_Comm_size(MPI_COMM_WORLD, &nproc);
+        vector <Request> requestList;
 
-        vector <Request> requestList(50000);
         if (procID < masterNum) {
             printf("call %d\n",procID);
             char *filename = (char *) malloc(30);
-            sprintf(filename, "%d.txt", procID);
+            sprintf(filename, "trace/%d.txt", procID);
 
             FILE *input = fopen(filename, "r");
             if (!input) {
@@ -113,6 +157,7 @@ int main(int argc, char *argv[]) {
             char comm[5];
             ll key;
             int value;
+            requestList.resize(n);
             for (int i = 0; i < n; i++) {
                 fscanf(input, "%s %lld %d", comm, &key, &value);
                 Request *r = new Request;
