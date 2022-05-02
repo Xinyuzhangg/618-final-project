@@ -33,6 +33,8 @@ void GenerateTrace(char *filename, int n, ll p, char* mode){
     output<<n<<endl;
     time_t t;
     srand((unsigned) time(&t));
+    ll *keyList = new ll[n];
+    int ptr =0;
     for(int i=0;i<n;i++){
         char* traceItem = (char*)malloc(50);
         if(strcmp(mode,ModePut)==0){
@@ -45,17 +47,23 @@ void GenerateTrace(char *filename, int n, ll p, char* mode){
         }else{
             if(rand()%n<i){
                 // get
-                ll key = GenerateRandomLL();
+                // ll key = GenerateRandomLL();
+                int keyId = rand()%ptr;
+                ll key = keyList[keyId];
                 sprintf(traceItem,"GET %lld %d",key,0);
             }else {
                 // put
                 ll key = GenerateRandomLL();
                 int value = rand();
                 sprintf(traceItem,"PUT %lld %d",key,value);
+                //keyList[i] = key;
+                //keyList.push_back(key);
+                keyList[ptr++] = key;
             }
         }
         output<<traceItem<<endl;
         free(traceItem);
     }
+    delete[] keyList;
     output.close();
 }

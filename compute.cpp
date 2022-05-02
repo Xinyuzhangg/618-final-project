@@ -135,9 +135,9 @@ void FlatHashWorker(int procID, int nproc) {
         req.value = recvBuf[3];
         req.comm = recvBuf[4];
         void *resp = malloc(4);
-        if(req.comm !=0){
+        /*if(req.comm !=0){
             continue;
-        }
+        }*/
         if (req.comm == 0) {
             auto res = fhm->insert_or_assign(req.key, req.value);
             int resInt = res.second ? 1 : 0;
@@ -182,9 +182,9 @@ void LinearHashWorker(int procID, int nproc){
         req.value = recvBuf[3];
         req.comm = recvBuf[4];
         //printf("received a message %lld %d %d\n",req.key,req.value,req.comm);
-        if(req.comm !=0){
+        /*if(req.comm !=0){
             continue;
-        }
+        }*/
         void *resp = malloc(4);
         if(req.comm==0){
             auto res = hm.emplace(req.key, req.value);
