@@ -1,0 +1,204 @@
+master: 1
+run time: 0.0342595
+
+master: 2
+run time: 0.0335397
+
+master: 3
+run time: 0.0342187
+
+worker: 3
+run time: 0.0648564
+
+worker: 17
+run time: 0.0648358
+
+worker: 30
+run time: 0.065024
+
+worker: 16
+run time: 0.0650228
+
+worker: 39
+run time: 0.0649043
+
+worker: 15
+run time: 0.0648996
+
+worker: 25
+run time: 0.0646122
+
+worker: 4
+run time: 0.0646564
+
+master: 0
+run time: 0.0347338
+
+worker: 0
+run time: 0.064652
+
+worker: 59
+run time: 0.0645922
+
+worker: 45
+run time: 0.0647354
+
+worker: 47
+run time: 0.0647267
+
+worker: 20
+run time: 0.0645119
+
+worker: 43
+run time: 0.0647373
+
+worker: 52
+run time: 0.0645077
+
+worker: 22
+run time: 0.0648292
+
+worker: 56
+run time: 0.0646099
+
+worker: 21
+run time: 0.064906
+
+worker: 49
+run time: 0.0647166
+
+worker: 24
+run time: 0.0649051
+
+worker: 48
+run time: 0.0645474
+
+worker: 12
+run time: 0.0649348
+
+worker: 10
+run time: 0.0649352
+
+worker: 54
+run time: 0.0645491
+
+worker: 6
+run time: 0.0645637
+
+worker: 42
+run time: 0.0645065
+
+worker: 62
+run time: 0.0648597
+
+worker: 38
+run time: 0.0646516
+
+worker: 34
+run time: 0.064852
+
+worker: 1
+run time: 0.064941
+
+worker: 44
+run time: 0.0646528
+
+worker: 26
+run time: 0.0648335
+
+worker: 31
+run time: 0.0649405
+
+worker: 35
+run time: 0.0649249
+
+worker: 36
+run time: 0.0644757
+
+worker: 7
+run time: 0.0645478
+
+worker: 14
+run time: 0.0647209
+
+worker: 19
+run time: 0.0647778
+
+worker: 61
+run time: 0.0647035
+
+worker: 40
+run time: 0.0647737
+
+worker: 9
+run time: 0.0646872
+
+worker: 37
+run time: 0.0645996
+
+worker: 8
+run time: 0.0647791
+
+worker: 32
+run time: 0.0646644
+
+worker: 18
+run time: 0.0645105
+
+worker: 27
+run time: 0.0647826
+
+worker: 55
+run time: 0.0647647
+
+worker: 28
+run time: 0.0647101
+
+worker: 11
+run time: 0.0645485
+
+worker: 5
+run time: 0.0644889
+
+worker: 50
+run time: 0.0647094
+
+worker: 53
+run time: 0.0649529
+
+worker: 23
+run time: 0.0648624
+
+worker: 51
+run time: 0.0647367
+
+worker: 58
+run time: 0.0647917
+
+worker: 13
+run time: 0.0648087
+
+worker: 33
+run time: 0.0648643
+
+worker: 46
+run time: 0.0646737
+
+worker: 63
+run time: 0.0647389
+
+worker: 60
+run time: 0.0646643
+
+worker: 41
+run time: 0.0647251
+
+worker: 2
+run time: 0.0646502
+
+worker: 29
+run time: 0.0649457
+
+worker: 57
+run time: 0.0649523
+

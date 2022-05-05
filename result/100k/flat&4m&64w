@@ -1,0 +1,204 @@
+master: 0
+run time: 0.0357344
+
+master: 3
+run time: 0.0353983
+
+master: 1
+run time: 0.0349121
+
+worker: 1
+run time: 0.0661657
+
+worker: 21
+run time: 0.0662546
+
+worker: 6
+run time: 0.0661421
+
+worker: 14
+run time: 0.0660058
+
+worker: 45
+run time: 0.0660021
+
+worker: 28
+run time: 0.0663439
+
+worker: 60
+run time: 0.0663518
+
+worker: 8
+run time: 0.0662549
+
+worker: 43
+run time: 0.0662533
+
+worker: 2
+run time: 0.0662549
+
+worker: 26
+run time: 0.06626
+
+master: 2
+run time: 0.0357783
+
+worker: 63
+run time: 0.0661141
+
+worker: 59
+run time: 0.0660635
+
+worker: 47
+run time: 0.0660342
+
+worker: 3
+run time: 0.066095
+
+worker: 35
+run time: 0.0662913
+
+worker: 53
+run time: 0.0660269
+
+worker: 25
+run time: 0.0660521
+
+worker: 52
+run time: 0.0659526
+
+worker: 42
+run time: 0.066
+
+worker: 7
+run time: 0.053731
+
+worker: 5
+run time: 0.0662845
+
+worker: 11
+run time: 0.0662406
+
+worker: 13
+run time: 0.0664153
+
+worker: 4
+run time: 0.0661431
+
+worker: 57
+run time: 0.0662159
+
+worker: 39
+run time: 0.066312
+
+worker: 0
+run time: 0.0661705
+
+worker: 24
+run time: 0.0661538
+
+worker: 44
+run time: 0.0659485
+
+worker: 31
+run time: 0.0661419
+
+worker: 48
+run time: 0.0661825
+
+worker: 32
+run time: 0.0660739
+
+worker: 18
+run time: 0.0661757
+
+worker: 36
+run time: 0.0659626
+
+worker: 54
+run time: 0.0662608
+
+worker: 30
+run time: 0.0660054
+
+worker: 38
+run time: 0.0658831
+
+worker: 61
+run time: 0.0661993
+
+worker: 34
+run time: 0.0660138
+
+worker: 62
+run time: 0.0660141
+
+worker: 23
+run time: 0.0661022
+
+worker: 27
+run time: 0.0661022
+
+worker: 49
+run time: 0.0662208
+
+worker: 17
+run time: 0.0658599
+
+worker: 40
+run time: 0.0660101
+
+worker: 19
+run time: 0.0660982
+
+worker: 55
+run time: 0.066223
+
+worker: 56
+run time: 0.0659673
+
+worker: 33
+run time: 0.0660992
+
+worker: 9
+run time: 0.066386
+
+worker: 15
+run time: 0.0663853
+
+worker: 12
+run time: 0.0660057
+
+worker: 20
+run time: 0.0660038
+
+worker: 22
+run time: 0.0661805
+
+worker: 37
+run time: 0.0664205
+
+worker: 29
+run time: 0.0660984
+
+worker: 16
+run time: 0.066176
+
+worker: 51
+run time: 0.066099
+
+worker: 41
+run time: 0.06625
+
+worker: 10
+run time: 0.0661787
+
+worker: 58
+run time: 0.0660119
+
+worker: 46
+run time: 0.0659678
+
+worker: 50
+run time: 0.0663334
+

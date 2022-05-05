@@ -13,3 +13,18 @@ run time: 0.0518971
 worker: 0
 run time: 0.0983263
 
+master: 0
+run time: 0.0573537
+
+master: 2
+run time: 0.0557541
+
+master: 3
+run time: 0.0658457
+
+master: 1
+run time: 0.0658662
+
+worker: 0
+run time: 0.0955794
+
