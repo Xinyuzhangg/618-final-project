@@ -1,18 +1,13 @@
-//
-// Created by zhi lin on 4/24/22.
-//
-
+#pragma once
 #include<vector>
+#include "utils.h"
+#define ll long long
 using namespace std;
 
-#ifndef INC_618_FINAL_PROJECT_REQUEST_H
-#define INC_618_FINAL_PROJECT_REQUEST_H
-
-#endif //INC_618_FINAL_PROJECT_REQUEST_H
-
-struct Request{
+struct Request {
     int comm;
     int source;
+    int procID;
     long long key;
     int value;
     Request(){
@@ -21,19 +16,19 @@ struct Request{
     }
 };
 
-void compute_hashWorker(int procID, int nproc,char* hashType);
+void compute_hashWorker(int masterNum, char *hashType);
 
 // hashtable master node
-void compute_hashMaster(int procID, int nproc,int nMaster, bool isBenchmark, std::vector<Request> &traceList);
+void compute_hashMaster(int procID, int nproc, int nMaster, std::vector <Request> &traceList);
 
-void LinearHashSerial(std::vector<Request> &traceList);
+void LinearHashSerial(std::vector <Request> &traceList);
 
-void LinearHashWorker(int procID, int nproc);
+void LinearHashWorker(int masterNum);
 
-void LinearHashMaster(int procID, int nproc,int nMaster,bool isBenchmark, std::vector<Request> &traceList);
+void LinearHashMaster(int procID, int nproc, int nMaster, std::vector <Request> &traceList);
 
 Request RequestDecoder(void *req);
 
-void RequestEncoder(void *buf, int source, char* comm, long long key, int value);
+void RequestEncoder(void *buf, int source, char *comm, long long key, int value);
 
-void FlatHashWorker(int procID, int nproc);
+void FlatHashWorker(int masterNum);
