@@ -10,12 +10,6 @@ FORMAT = '%(asctime)-15s - %(levelname)s - %(module)10s:%(lineno)-5d - %(message
 logging.basicConfig(stream=sys.stdout, level=logging.INFO, format=FORMAT)
 LOG = logging.getLogger(__name__)
 
-
-def main():
-    # f = open("100k.txt", "r")
-    print("yes")
-
-
 def read_file(file_name):
     f = open(file_name, "r")
     result = {}
@@ -25,7 +19,7 @@ def read_file(file_name):
             idx = int(l.split()[1])
         else:
             if idx != -1:
-                result[idx] = float(l.split()[1])
+                result[idx] = float(l.split()[2])
                 idx = -1
 
     return max(result.values())
@@ -33,34 +27,25 @@ def read_file(file_name):
 def plot():
     data = defaultdict(lambda : [[], []])
     fs = []
-    for (dirpath, dirnames, filenames) in walk("result/100k"):
+    dir_path = "result/100k/"
+    for (dirpath, dirnames, filenames) in walk(dir_path):
         fs.extend(filenames)
     for f in fs:
         cats = f.split("&")
         hash_type = cats[0]
-        m = int(cat[1].split("m")[0])
-        n = int(cat[2].split("n")[0])
+        m = int(cats[1].split("m")[0])
+        n = int(cats[2].split("w")[0])
         data[hash_type][0].append(m)
-        val = read_file(f)
+        val = read_file(dir_path + f)
         data[hash_type][1].append(val)
 
     plt.xlabel('Number of masters')
     plt.ylabel('Calculation time')
-    for k, v in dict:
+    for k, v in data.items():
         plt.plot(v[0], v[1], 'ro', label=k)
-    plt.savefig('result.png')
+    plt.savefig('plot/result.png')
 
 
 if __name__ == '__main__':
     LOG.info("start tracing\n")
-
-    np = 8
-    m = 4
-    hash = "flat"
-    d = "100k"
-
-    for m in [2, 4, 8, 16]:
-        params = ["mpirun"]
-        args = f"-np {np} ./hashmap -t parallel -m {m} -h {hash} -d {d}"
-        params += args.split()
-        subprocess.call(params)
+    plot()
