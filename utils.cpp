@@ -1,6 +1,9 @@
 #include<cstdio>
 #include<cstdlib>
 #include <time.h>
+#include <ostream>
+#include <fstream>
+#include <sstream>
 
 #include "utils.h"
 #include "mpi.h"
@@ -138,6 +141,20 @@ static void get_request(vector <Request> &requestList, FILE *input, int n, int p
     }
 }
 
+static void write_result(bool worker, int id, double runtime) {
+    fstream result_file;
+    string result;
+
+    std::stringstream ss;
+    result_file.open ("result/trace_result.txt", ios_base::app | ios_base::in);
+    if (worker)
+        ss << "worker: " << id << "\n" << "run time: " << runtime << "\n\n";
+    else
+        ss << "master: " << id << "\n" << "run time: " << runtime << "\n\n";
+    result_file << ss.str();
+    result_file.close();
+}
+
 
 int parallel_test(progInfo &pi) {
     /* Initailize additional data structures needed in the algorithm */
@@ -178,7 +195,14 @@ int parallel_test(progInfo &pi) {
         compute_hashWorker(pi.masterNum, pi.hashType);
     }
     double endTime = MPI_Wtime();
+    double runtime = endTime - startTime;
     printf("running time: %lf\n", endTime - startTime);
+
+    if (procID < pi.masterNum) {
+        write_result(false, procID, runtime);
+    } else {
+        write_result(true, procID - pi.masterNum, runtime);
+    }
 
     // Cleanup
     MPI_Finalize();

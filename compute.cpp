@@ -132,7 +132,6 @@ void LinearHashSerial(std::vector <Request> &traceList) {
 void FlatHashWorker(int masterNum) {
     MPI_Status status;
     pp::flat_hash_map<ll, int> *fhm = new pp::flat_hash_map<ll, int>();
-    // void *r = malloc(20);
     char r[21];
     ll key;
     int value;
@@ -160,7 +159,6 @@ void FlatHashWorker(int masterNum) {
         } else if (req->comm == 2) {
 
         }
-        // MPI_Send(resp, 4, MPI_INT, req.source, tag, MPI_COMM_WORLD);
     }
 }
 
