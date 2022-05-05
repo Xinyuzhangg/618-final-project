@@ -34,8 +34,10 @@ struct Equal {
     bool operator()(ll l, ll r) { return l == r; }
 };
 
-// hashtable worker node
-// async receive signal from master
+/* hashtable worker node, async receive signal from master
+ * @param masterNum: the number of the masters
+ * @param hashType: type of hashing functions
+ * */
 void compute_hashWorker(int masterNum, char *hashType) {
     if (strcmp(hashType, "linear") == 0) {
         cout << "call linear" << endl;
@@ -46,7 +48,12 @@ void compute_hashWorker(int masterNum, char *hashType) {
     }
 }
 
-// hashtable master node
+/* hashtable master node, shared by any kinds of hashing function
+ * @param: procID process id
+ * @param: nproc number of processes
+ * @param: nMaster number of masters
+ * @param: traceList list of trace requests
+ * */
 void compute_hashMaster(int procID, int nproc, int nMaster, std::vector <Request> &traceList) {
     LinearHashMaster(procID, nproc, nMaster, traceList);
 }
@@ -56,6 +63,10 @@ void compute_caller(int procID, int nproc) {
 
 }
 
+/* decode a request
+ * @param: req byte array
+ * @return: request object decoded
+ * */
 Request RequestDecoder(char *req) {
     Request r;
     int cursor = 0;
@@ -73,6 +84,13 @@ Request RequestDecoder(char *req) {
     return r;
 }
 
+/* encode a request
+ * @param: buf byte buffer for encoded request
+ * @param: source source of the request
+ * @param: comm command
+ * @param: key key of the hash table
+ * @param: value value of the object
+ * */
 void RequestEncoder(char *buf, int source, int comm, ll key, int value) {
     int cursor = 0;
     memcpy(buf + cursor, &source, sizeof(int));
@@ -84,6 +102,9 @@ void RequestEncoder(char *buf, int source, int comm, ll key, int value) {
     memcpy(buf + cursor, &value, sizeof(int));
 }
 
+/* linear hashing serial test
+ * @param: traceList request list from the trace file
+ * */
 void LinearHashSerial(std::vector <Request> &traceList) {
     Hash modHash(1000003);
     Equal LLEqual;
@@ -129,6 +150,9 @@ void LinearHashSerial(std::vector <Request> &traceList) {
     }
 }
 
+/* flat hash worker function
+ * @param: masterNum: number of masters
+ * */
 void FlatHashWorker(int masterNum) {
     MPI_Status status;
     pp::flat_hash_map<ll, int> *fhm = new pp::flat_hash_map<ll, int>();
@@ -162,7 +186,9 @@ void FlatHashWorker(int masterNum) {
     }
 }
 
-
+/* linear hash worker function
+ * @param: masterNum: number of masters
+ * */
 void LinearHashWorker(int masterNum) {
     Hash modHash(1000003);
     Equal LLEqual;
@@ -206,7 +232,12 @@ void LinearHashWorker(int masterNum) {
     }
 }
 
-
+/* linear hash master function
+ * @param: masterNum: number of masters
+ * @param: procID: process id
+ * @param: nproc: number of processes
+ * @param: traceList: list of requests from the trace file
+ * */
 void LinearHashMaster(int procID, int nproc, int nMaster, std::vector <Request> &traceList) {
     Hash modHash(1000003);
     Equal LLEqual;
