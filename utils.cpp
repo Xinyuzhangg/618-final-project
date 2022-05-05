@@ -19,8 +19,12 @@ void parser(int argc, char *argv[], progInfo *pi) {
     // Read command line arguments
     int opt = 0;
     do {
-        opt = getopt(argc, argv, "t:n:f:c:m:h:");
+        opt = getopt(argc, argv, "t:n:f:c:m:h:d:");
         switch (opt) {
+            case 'd':
+                pi->dir = optarg;
+                break;
+
             case 't':
                 pi->callingType = optarg;
                 break;
@@ -141,12 +145,13 @@ static void get_request(vector <Request> &requestList, FILE *input, int n, int p
     }
 }
 
-static void write_result(bool worker, int id, double runtime) {
+static void write_result(bool worker, int id, double runtime, char *file_name) {
     fstream result_file;
     string result;
 
     std::stringstream ss;
-    result_file.open ("result/trace_result.txt", ios_base::app | ios_base::in);
+    result_file.open (file_name, ios_base::app | ios_base::in);
+
     if (worker)
         ss << "worker: " << id << "\n" << "run time: " << runtime << "\n\n";
     else
@@ -168,11 +173,12 @@ int parallel_test(progInfo &pi) {
 
     // Get total number of processes specificed at start of run
     MPI_Comm_size(MPI_COMM_WORLD, &nproc);
+
     vector <Request> requestList;
     if (procID < pi.masterNum) {
         printf("call %d\n", procID);
         char *filename = (char *) malloc(30);
-        sprintf(filename, "trace/%d.txt", procID);
+        sprintf(filename, "trace/%s/%d.txt", pi.dir, procID);
 
         FILE *input = fopen(filename, "r");
         if (!input) {
@@ -198,11 +204,16 @@ int parallel_test(progInfo &pi) {
     double runtime = endTime - startTime;
     printf("running time: %lf\n", endTime - startTime);
 
+    char *result_file = (char *)malloc(30);
+    sprintf(result_file, "result/%s/%s&%dm&%dw.txt", pi.dir, pi.callingType, pi.masterNum, nproc - pi.masterNum);
+
+
     if (procID < pi.masterNum) {
-        write_result(false, procID, runtime);
+        write_result(false, procID, runtime, result_file);
     } else {
-        write_result(true, procID - pi.masterNum, runtime);
+        write_result(true, procID - pi.masterNum, runtime, result_file);
     }
+    free(result_file);
 
     // Cleanup
     MPI_Finalize();

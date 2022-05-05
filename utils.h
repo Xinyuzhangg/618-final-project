@@ -2,6 +2,7 @@
 #include "string.h"
 
 struct progInfo {
+    char *dir;
     char *callingType;
     char *filename;
     int n;
