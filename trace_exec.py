@@ -11,12 +11,11 @@ LOG = logging.getLogger(__name__)
 if __name__ == '__main__':
     LOG.info("start tracing\n")
 
-    np = 32
-    m = 4
     hash = "flat"
     d = "100k"
 
     for m in range(1, 9):
+        np = m + 1
         params = ["mpirun"]
         args = f"-np {np} ./hashmap -t parallel -m {m} -h {hash} -d {d}"
         params += args.split()
