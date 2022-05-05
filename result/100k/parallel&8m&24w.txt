@@ -1,96 +1,96 @@
-master: 4
-run time: 0.0374659
-
-master: 6
-run time: 0.0374351
-
-master: 2
-run time: 0.0375267
-
-master: 0
-run time: 0.037572
-
-master: 5
-run time: 0.0411254
+master: 7
+run time: 0.050323
 
 master: 3
-run time: 0.0418923
+run time: 0.0505505
+
+master: 5
+run time: 0.0516636
+
+master: 0
+run time: 0.0516246
+
+master: 4
+run time: 0.0513988
 
 master: 1
-run time: 0.0424357
-
-worker: 1
-run time: 0.0847969
-
-worker: 9
-run time: 0.0848985
+run time: 0.0523246
 
 worker: 4
-run time: 0.0848648
-
-worker: 13
-run time: 0.0846848
-
-worker: 7
-run time: 0.0847839
-
-worker: 15
-run time: 0.0847569
-
-master: 7
-run time: 0.0373552
+run time: 0.082287
 
 worker: 8
-run time: 0.0848239
-
-worker: 14
-run time: 0.0847768
+run time: 0.0822536
 
 worker: 6
-run time: 0.0848235
+run time: 0.082303
 
-worker: 19
-run time: 0.0848521
+master: 6
+run time: 0.052161
 
-worker: 0
-run time: 0.0848687
+master: 2
+run time: 0.0525288
 
-worker: 2
-run time: 0.0848767
-
-worker: 22
-run time: 0.0847772
-
-worker: 17
-run time: 0.084631
-
-worker: 21
-run time: 0.0848395
-
-worker: 18
-run time: 0.0847774
-
-worker: 20
-run time: 0.0847774
-
-worker: 23
-run time: 0.084576
-
-worker: 5
-run time: 0.0846277
-
-worker: 3
-run time: 0.0846289
-
-worker: 16
-run time: 0.0846645
-
-worker: 11
-run time: 0.0848374
-
-worker: 12
-run time: 0.0849003
+worker: 15
+run time: 0.0822782
 
 worker: 10
-run time: 0.084924
+run time: 0.0821805
+
+worker: 1
+run time: 0.082198
+
+worker: 17
+run time: 0.0822935
+
+worker: 11
+run time: 0.0822274
+
+worker: 2
+run time: 0.0821623
+
+worker: 22
+run time: 0.0824693
+
+worker: 14
+run time: 0.0822913
+
+worker: 12
+run time: 0.0822919
+
+worker: 9
+run time: 0.082227
+
+worker: 0
+run time: 0.082302
+
+worker: 21
+run time: 0.0823871
+
+worker: 3
+run time: 0.082138
+
+worker: 5
+run time: 0.0821955
+
+worker: 20
+run time: 0.0823674
+
+worker: 7
+run time: 0.0822035
+
+worker: 23
+run time: 0.0821517
+
+worker: 19
+run time: 0.0823157
+
+worker: 18
+run time: 0.0823298
+
+worker: 16
+run time: 0.0822619
+
+worker: 13
+run time: 0.0821772
 

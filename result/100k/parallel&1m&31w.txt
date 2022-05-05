@@ -1,192 +1,96 @@
 worker: 0
-run time: 0.0708813
-
-worker: 12
-run time: 0.070894
-
-worker: 16
-run time: 0.0709049
-
-worker: 20
-run time: 0.0709174
-
-worker: 14
-run time: 0.0708648
-
-worker: 25
-run time: 0.0708732
-
-worker: 10
-run time: 0.0709394
-
-worker: 22
-run time: 0.0708998
-
-worker: 26
-run time: 0.0709026
-
-worker: 8
-run time: 0.0708866
-
-worker: 18
-run time: 0.070918
-
-worker: 4
-run time: 0.0708673
-
-worker: 13
-run time: 0.070904
-
-worker: 1
-run time: 0.0709053
-
-worker: 15
-run time: 0.0709015
-
-worker: 3
-run time: 0.0708986
-
-worker: 19
-run time: 0.0708975
-
-worker: 5
-run time: 0.0708612
-
-master: 0
-run time: 0.0243834
-
-worker: 30
-run time: 0.0708608
-
-worker: 17
-run time: 0.0709075
-
-worker: 11
-run time: 0.0708827
-
-worker: 29
-run time: 0.0708709
-
-worker: 23
-run time: 0.0708953
-
-worker: 7
-run time: 0.0709032
+run time: 0.0474028
 
 worker: 21
-run time: 0.0709167
-
-worker: 28
-run time: 0.0709065
-
-worker: 24
-run time: 0.0709058
+run time: 0.0478133
 
 worker: 9
-run time: 0.0709063
-
-worker: 27
-run time: 0.0708703
-
-worker: 6
-run time: 0.0708765
-
-worker: 2
-run time: 0.0708929
-
-worker: 6
-run time: 0.0475486
-
-worker: 9
-run time: 0.0476108
-
-worker: 16
-run time: 0.0475466
-
-worker: 19
-run time: 0.0475469
-
-worker: 0
-run time: 0.0474338
-
-worker: 30
-run time: 0.0474877
-
-worker: 24
-run time: 0.0474877
+run time: 0.0479281
 
 worker: 8
-run time: 0.0473574
+run time: 0.0479138
 
-worker: 7
-run time: 0.0474036
-
-worker: 23
-run time: 0.0474831
-
-worker: 5
-run time: 0.0474391
-
-worker: 1
-run time: 0.0474937
-
-worker: 12
-run time: 0.0474053
-
-worker: 25
-run time: 0.0476138
-
-worker: 14
-run time: 0.0475673
+worker: 24
+run time: 0.0476254
 
 worker: 26
-run time: 0.0475387
+run time: 0.0474095
 
-worker: 28
-run time: 0.0475002
-
-worker: 11
-run time: 0.047494
-
-worker: 21
-run time: 0.0475594
-
-worker: 15
-run time: 0.047409
-
-worker: 18
-run time: 0.0475756
+worker: 25
+run time: 0.0478123
 
 worker: 20
-run time: 0.047666
+run time: 0.0477776
 
 worker: 27
-run time: 0.0474957
+run time: 0.0476335
 
-worker: 17
-run time: 0.0475553
+worker: 6
+run time: 0.0477768
 
-worker: 2
-run time: 0.0474457
-
-worker: 4
-run time: 0.0474793
-
-worker: 10
-run time: 0.0475017
-
-worker: 29
-run time: 0.047484
+worker: 28
+run time: 0.047481
 
 worker: 13
-run time: 0.0473954
+run time: 0.0475864
 
-worker: 3
-run time: 0.0474527
+worker: 15
+run time: 0.0475075
 
-master: 0
-run time: 0.0181234
+worker: 18
+run time: 0.0477772
+
+worker: 2
+run time: 0.0476911
+
+worker: 4
+run time: 0.0476912
 
 worker: 22
-run time: 0.0475492
+run time: 0.0476977
+
+worker: 3
+run time: 0.0478923
+
+worker: 29
+run time: 0.0474029
+
+worker: 11
+run time: 0.0476594
+
+worker: 7
+run time: 0.0479279
+
+worker: 5
+run time: 0.0477697
+
+worker: 1
+run time: 0.0478917
+
+master: 0
+run time: 0.0184138
+
+worker: 12
+run time: 0.0472328
+
+worker: 10
+run time: 0.0475938
+
+worker: 30
+run time: 0.047837
+
+worker: 23
+run time: 0.0476293
+
+worker: 14
+run time: 0.0477033
+
+worker: 16
+run time: 0.0477751
+
+worker: 17
+run time: 0.0477735
+
+worker: 19
+run time: 0.0478124
 
