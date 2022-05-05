@@ -34,15 +34,18 @@ def plot(w_num):
     dir_path = "result/100k/"
     for (dirpath, dirnames, filenames) in walk(dir_path):
         fs.extend(filenames)
+
     for f in fs:
         cats = f.split("&")
         hash_type = cats[0]
         m = int(cats[1].split("m")[0])
         w = int(cats[2].split("w")[0])
+
         if w == w_num:
             data[hash_type][0].append(m)
             val = read_file(dir_path + f)
             data[hash_type][1].append(val)
+
 
 
     plt.xlabel('Number of masters')
@@ -81,11 +84,12 @@ def plot2(m_num):
 
 
     plt.xlabel('Number of workers')
-    plt.ylabel('Calculation time')
+    plt.ylabel('Speed up')
 
     plot_line = ['ro-', 'go-']
     for idx, (k, v) in enumerate(data.items()):
         v = list(zip(*sorted(zip(v[0], v[1]))))
+        v[1] = [(v[1][0] / val) for val in v[1]]
         plt.plot(v[0], v[1], plot_line[idx], label=k)
 
     leg = plt.legend(loc='best', ncol=2, mode="expand", shadow=True, fancybox=True)
