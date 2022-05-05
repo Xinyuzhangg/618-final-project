@@ -205,7 +205,7 @@ int parallel_test(progInfo &pi) {
     printf("running time: %lf\n", endTime - startTime);
 
     char *result_file = (char *)malloc(30);
-    sprintf(result_file, "result/%s/%s&%dm&%dw.txt", pi.dir, pi.callingType, pi.masterNum, nproc - pi.masterNum);
+    sprintf(result_file, "result/%s/%s&%dm&%dw.txt", pi.dir, pi.hashType, pi.masterNum, nproc - pi.masterNum);
 
 
     if (procID < pi.masterNum) {
