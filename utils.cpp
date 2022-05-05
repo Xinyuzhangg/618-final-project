@@ -12,6 +12,12 @@
 #include "trace_generator.hpp"
 
 using namespace std;
+
+/* parse input params
+ * @param argc arg number
+ * @param argv args
+ * @param pi program params
+ * */
 void parser(int argc, char *argv[], progInfo *pi) {
     // Get process rank
     MPI_Comm_rank(MPI_COMM_WORLD, &pi->procID);
@@ -58,6 +64,10 @@ void parser(int argc, char *argv[], progInfo *pi) {
     } while (opt != -1);
 }
 
+/* generate trace
+ * @param pi program params
+ * @return end of function
+ * */
 int generate_trace(progInfo &pi) {
     int n = pi.n;
     if (pi.filename == NULL || n == 0) {
@@ -78,7 +88,10 @@ int generate_trace(progInfo &pi) {
     return 0;
 }
 
-
+/* test serial version of this program
+ * @param pi program params
+ * @return end of function
+ * */
 int serial_test(progInfo &pi) {
     int procID = 1;
     time_t t;
@@ -122,6 +135,11 @@ int serial_test(progInfo &pi) {
     return 0;
 }
 
+/* read trace files and generate the requests
+ * @param requestList vector of request to be generated
+ * @param input trace file object
+ * @param procID process id
+ * */
 static void get_request(vector <Request> &requestList, FILE *input, int n, int procID) {
     Request *r;
     char comm[5];
@@ -145,6 +163,12 @@ static void get_request(vector <Request> &requestList, FILE *input, int n, int p
     }
 }
 
+/* write result to the files
+ * @param worker is worker
+ * @param id process id
+ * @param runtime running time
+ * @param file_name the name of the output file
+ * */
 static void write_result(bool worker, int id, double runtime, char *file_name) {
     fstream result_file;
     string result;
@@ -160,7 +184,10 @@ static void write_result(bool worker, int id, double runtime, char *file_name) {
     result_file.close();
 }
 
-
+/* test paralle kv storage
+ * @param pi program info
+ * @return end of file
+ * */
 int parallel_test(progInfo &pi) {
     /* Initailize additional data structures needed in the algorithm */
     int procID, nproc;

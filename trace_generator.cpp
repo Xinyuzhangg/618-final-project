@@ -15,7 +15,9 @@
 #define mod 1000003
 using namespace std;
 
-
+/* Generate a random long long number
+ * @return: a random long long number
+ * */
 ll GenerateRandomLL(){
     ll numLeft = rand();
     ll numRight = rand();
@@ -23,8 +25,11 @@ ll GenerateRandomLL(){
     return num;
 }
 
-/*
- * p: max key
+/* generate trace
+ * @param filename: generated trace file name
+ * @param n: number of lines in the trace file
+ * @param p: max key
+ * @param mode: trace mode
  * */
 void GenerateTrace(char *filename, int n, ll p, char* mode){
     std::ofstream output;
