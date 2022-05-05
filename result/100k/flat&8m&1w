@@ -25,3 +25,30 @@ run time: 0.131643
 worker: 0
 run time: 0.17781
 
+master: 6
+run time: 0.156124
+
+master: 4
+run time: 0.160878
+
+master: 0
+run time: 0.161892
+
+master: 2
+run time: 0.164457
+
+master: 5
+run time: 0.171934
+
+master: 3
+run time: 0.17195
+
+master: 7
+run time: 0.172077
+
+master: 1
+run time: 0.172461
+
+worker: 0
+run time: 0.202166
+

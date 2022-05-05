@@ -4,3 +4,9 @@ run time: 0.0608865
 master: 0
 run time: 0.0126222
 
+worker: 0
+run time: 0.0518596
+
+master: 0
+run time: 0.0210492
+

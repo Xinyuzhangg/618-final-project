@@ -1,0 +1,54 @@
+master: 1
+run time: 0.0246433
+
+worker: 7
+run time: 0.0547803
+
+worker: 13
+run time: 0.0547814
+
+worker: 12
+run time: 0.0547953
+
+worker: 10
+run time: 0.0549745
+
+worker: 1
+run time: 0.0548121
+
+worker: 9
+run time: 0.0548182
+
+master: 0
+run time: 0.0252145
+
+worker: 2
+run time: 0.0549736
+
+worker: 0
+run time: 0.0546084
+
+worker: 5
+run time: 0.0548973
+
+worker: 3
+run time: 0.0548641
+
+worker: 15
+run time: 0.0548136
+
+worker: 11
+run time: 0.0548141
+
+worker: 6
+run time: 0.054842
+
+worker: 4
+run time: 0.0547989
+
+worker: 14
+run time: 0.05491
+
+worker: 8
+run time: 0.0546485
+

@@ -266,7 +266,7 @@ void LinearHashMaster(int procID, int nproc, int nMaster, std::vector <Request> 
     for (int workerID = nMaster; workerID < nproc; workerID++) {
         Request r;
         r.procID = -1;
-        MPI_Isend(&r, 6, MPI_INT, workerID, 0, MPI_COMM_WORLD, request);
+        MPI_Send(&r, 6, MPI_INT, workerID, 0, MPI_COMM_WORLD);
     }
     printf("end of master\n");
 }

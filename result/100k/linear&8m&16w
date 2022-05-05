@@ -1,0 +1,72 @@
+master: 5
+run time: 0.0449579
+
+master: 1
+run time: 0.045813
+
+master: 2
+run time: 0.0471509
+
+master: 6
+run time: 0.0468541
+
+master: 3
+run time: 0.0470948
+
+master: 0
+run time: 0.0471439
+
+master: 7
+run time: 0.0474839
+
+worker: 3
+run time: 0.0777155
+
+master: 4
+run time: 0.0471146
+
+worker: 0
+run time: 0.0779104
+
+worker: 11
+run time: 0.0778457
+
+worker: 13
+run time: 0.0781612
+
+worker: 15
+run time: 0.0781642
+
+worker: 1
+run time: 0.0780581
+
+worker: 4
+run time: 0.0781539
+
+worker: 14
+run time: 0.0780463
+
+worker: 8
+run time: 0.0780448
+
+worker: 2
+run time: 0.0780414
+
+worker: 10
+run time: 0.078046
+
+worker: 6
+run time: 0.0780368
+
+worker: 12
+run time: 0.0779048
+
+worker: 7
+run time: 0.0781207
+
+worker: 5
+run time: 0.0780304
+
+worker: 9
+run time: 0.0777717
+

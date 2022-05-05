@@ -1,0 +1,36 @@
+master: 1
+run time: 0.0412006
+
+worker: 0
+run time: 0.0730577
+
+master: 0
+run time: 0.0433027
+
+master: 1
+run time: 0.045732
+
+worker: 0
+run time: 0.077701
+
+master: 0
+run time: 0.0470727
+
+master: 0
+run time: 0.0125789
+
+master: 1
+run time: 0.0166152
+
+worker: 0
+run time: 0.0641557
+
+master: 1
+run time: 0.0414975
+
+master: 0
+run time: 0.0433745
+
+worker: 0
+run time: 0.0733078
+

@@ -7,3 +7,12 @@ run time: 0.0171768
 worker: 0
 run time: 0.0640508
 
+master: 1
+run time: 0.0465575
+
+master: 0
+run time: 0.0487962
+
+worker: 0
+run time: 0.0786449
+

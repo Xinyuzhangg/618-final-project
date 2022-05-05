@@ -10,13 +10,15 @@ LOG = logging.getLogger(__name__)
 
 if __name__ == '__main__':
     LOG.info("start tracing\n")
+    worker = [1, 4, 8, 16, 32, 64]
 
-    hash = "flat"
     d = "100k"
 
-    for m in range(1, 9):
-        np = m + 1
-        params = ["mpirun"]
-        args = f"-np {np} ./hashmap -t parallel -m {m} -h {hash} -d {d}"
-        params += args.split()
-        subprocess.call(params)
+    for hash in ["linear", "flat"]:
+        for m in [1, 2, 4, 8]:
+            for w in worker:
+                np = w + m
+                params = ["mpirun"]
+                args = f"-np {np} ./hashmap -t parallel -m {m} -h {hash} -d {d}"
+                params += args.split()
+                subprocess.call(params)
