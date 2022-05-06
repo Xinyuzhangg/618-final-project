@@ -2,6 +2,35 @@
 
 Team members: Xinyu Zhang(xinyuzh3), Zhi Lin(zlin2)
 
+#### Video link: https://www.youtube.com/watch?v=rRbvQhK749k
+
+#### Report: [pp_final_report.pdf](https://github.com/Xinyuzhangg/618-final-project/blob/main/pp_final_report.pdf)
+
+### Use
+
+generate trace:
+
+```
+mpirun -np 1 ./hashmap -t trace -m 1 -n 100000 -f trace/3.txt -c PUTGET
+-c: trace mode: PUTGET PUT GET
+-n: lines
+-f: file name
+```
+
+test:
+
+``` mpirun -np 72 ./hashmap -t parallel -m 8 -h flat -d bsgs
+mpirun -np 72 ./hashmap -t parallel -m 8 -h flat -d bsgs
+-h: hash mode: linear / flat
+-m: master number
+```
+
+serial:
+
+```
+mpirun -np 1 ./hashmap -t serial
+```
+
 ## Summary
 
 We are going to implement a K-V storage for parallel computing and do correctness check and performance benchmark for further optimizations.
@@ -73,15 +102,15 @@ We are still comparing platforms like Cuda, OMP, and MPI.
    1. We have mostly lived up to goals we have stated. We think there is no problem to fulfil our initial expection since our implementataion is on track.
    2. Based on the discussion with mentor, we decided to implement the K-V storage based on MPI, and benchmark on PSC. We divided the work into two parts: one implementing linear hashing and one implementing flatten map. We have spent a lot of time tracing recent research and open source projects.
    3. Our updated timeline include:
-      - [ ] 4.11 - 4.13 Prepare for the exam
-      - [ ] 4.14 - 4.18 Complete all parallel code for the KV store
-      - [ ] 4.19 - 4.21 Complete the testing and performance analysis of the work being done
-      - [ ] 4.22 - 4.25 Based on the analysis done before, seek improvements and optimizations.
-      - [ ] 4.26 - 4.29 Finish on the report
+      - [x] 4.11 - 4.13 Prepare for the exam
+      - [x] 4.14 - 4.18 Complete all parallel code for the KV store
+      - [x] 4.19 - 4.21 Complete the testing and performance analysis of the work being done
+      - [x] 4.22 - 4.25 Based on the analysis done before, seek improvements and optimizations.
+      - [x] 4.26 - 4.29 Finish on the report
    4. Our updated poster session goals include:
-      - [ ] Complete parallelization on more than 2 hash mapping algorithms
-      - [ ] Improve the parallelism of the code by beating the SOTA serial performance by a factor of 2 using 2 cores
-      - [ ] The performance of our work tested using a range of bench marks including setting different memory loads.
+      - [x] Complete parallelization on more than 2 hash mapping algorithms
+      - [x] Improve the parallelism of the code by beating the SOTA serial performance by a factor of 2 using 2 cores
+      - [x] The performance of our work tested using a range of bench marks including setting different memory loads.
 3. Preliminary results:
    4. Compilable and runnable starting code.
    5. Serial version of the implementation of one algorithm
@@ -90,4 +119,3 @@ We are still comparing platforms like Cuda, OMP, and MPI.
    1. The performance of our work is limited subject to the memory load
    2. The parallelization part of the code is not extendible to the situation given the change of test cases
       
-
